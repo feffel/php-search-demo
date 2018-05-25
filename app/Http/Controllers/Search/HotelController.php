@@ -38,6 +38,8 @@ class HotelController extends Controller
             'destination' => 'nullable|max:25',
             'price' => 'nullable|priceRange',
             'date' => 'nullable|dateRange',
+            'sort-by' => 'nullable|in:name,price',
+            'sorting' => 'nullable|in:ascending,descending',
         ]);
     }
 

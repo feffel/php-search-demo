@@ -48,26 +48,24 @@ class QueryParser {
         return true;
     }
 
-    private function parseName(){
-        $name = null;
-        if (isset($this->queryArr['name'])){
-            $name = $this->queryArr['name'];
-            if (!is_string($name)){
+    private function parseStr($key){
+        $str = null;
+        if (isset($this->queryArr[$key])){
+            $str = $this->queryArr[$key];
+            if (!is_string($str)){
                 return false;
             }
+            $str = preg_replace("/[^a-zA-Z0-9 ]+/", "", $str);
+            $str = explode(' ', $str);
         }
-        return $name;
+        return $str;
+    }
+    private function parseName(){
+        return $this->parseStr('name');
     }
 
     private function parseDestination(){
-        $destination = null;
-        if (isset($this->queryArr['destination'])){
-            $destination = $this->queryArr['destination'];
-            if (!is_string($destination)){
-                return false;
-            }
-        }
-        return $destination;
+        return $this->parseStr('destination');
     }
 
     private function parsePrice(){
@@ -86,9 +84,10 @@ class QueryParser {
             if ($priceStr[0] > $priceStr[1]){
                 return false;
             }
-            $priceRange = [];
-            $priceRange['from'] = (float)$priceStr[0];
-            $priceRange['to'] = (float)$priceStr[1];
+            $priceRange = [
+                'from' => (float)$priceArr[0],
+                'to' => (float)$priceArr[1],
+            ];
         }
         return $priceRange;
     }

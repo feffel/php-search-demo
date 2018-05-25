@@ -4,6 +4,11 @@ namespace App\Search\Hotel;
 
 use Illuminate\Support\Facades\Config;
 
+define('SORT_KEYS', array(
+    'name' => 'name',
+    'price' => 'price',
+));
+
 class Utils{
 
     public static function fetchData($url){
@@ -28,6 +33,13 @@ class Utils{
             return false;
         }
         $query = (new QueryBuilder($parser, $hotelData))->build();
-        return $query->search();
+        $results = $query->search();
+        if(isset($params['sort-by'])){
+            $key = SORT_KEYS[$params['sort-by']];
+            $descending = (bool) (isset($params['sorting'])
+                                  && $params['sorting'] == 'descending');
+            (new HotelSort($results, $key, $descending))->sort();
+        }
+        return $results;
     }
 }
