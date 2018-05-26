@@ -24,4 +24,8 @@ abstract class FilterDecorator implements SearchQuery {
     public function getInitData(){
         return $this->wrappedQuery->getInitData();
     }
+
+    public function setInitData($data){
+        return $this->wrappedQuery->setInitData($data);
+    }
 }

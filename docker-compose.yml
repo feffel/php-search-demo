@@ -8,8 +8,9 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
-    environment:
-      - "DB_CONNECTION=sqlite"
+    depends_on:
+      - memcached
+
   web:
     build:
       context: ./
@@ -19,3 +20,14 @@ services:
       - .:/var/www
     ports:
       - 8000:80
+    depends_on:
+      - app
+      - memcached
+
+  memcached:
+    image: memcached
+    ports:
+      - 11211:11211
+    env_file:
+      - .env
+

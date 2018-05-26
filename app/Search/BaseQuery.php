@@ -6,8 +6,7 @@ class BaseQuery implements SearchQuery {
     
     private $data;
 
-    public function __construct($data){
-        $this->data = $data;
+    public function __construct(){
     }
 
     public function search(){
@@ -16,6 +15,10 @@ class BaseQuery implements SearchQuery {
 
     public function getInitData(){
         return $this->data;
+    }
+
+    public function setInitData($data){
+        $this->data = $data;
     }
 
     public function getFilteredIndices(){

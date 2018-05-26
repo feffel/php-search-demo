@@ -85,8 +85,8 @@ class QueryParser {
                 return false;
             }
             $priceRange = [
-                'from' => (float)$priceArr[0],
-                'to' => (float)$priceArr[1],
+                'from' => (float)$priceStr[0],
+                'to' => (float)$priceStr[1],
             ];
         }
         return $priceRange;

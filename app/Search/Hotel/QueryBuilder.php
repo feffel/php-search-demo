@@ -9,12 +9,10 @@ use App\Search\Filters\{DateFilterDecorator,
 
 class QueryBuilder {
 
-    private $data;
     private $queryParser;
 
-    public function __construct(QueryParser $queryParser, array $data) {
+    public function __construct(QueryParser $queryParser) {
         $this->queryParser = $queryParser;
-        $this->data = $data;
     }
 
     public function build() {
@@ -24,7 +22,7 @@ class QueryBuilder {
         }
 
         $parsedQuery = $this->queryParser->getParsedQuery();
-        $searchQuery = new BaseQuery($this->data);
+        $searchQuery = new BaseQuery();
         if (isset($parsedQuery['name'])){
             $searchQuery = new StringFilterDecorator($searchQuery, 'name',
                                                $parsedQuery['name']);
