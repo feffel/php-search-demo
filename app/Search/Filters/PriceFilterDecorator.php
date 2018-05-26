@@ -9,10 +9,8 @@ class PriceFilterDecorator extends FilterDecorator {
         $dataIndices = $this->wrappedQuery->getFilteredIndices();
         $data = $this->getInitData();
         foreach ($dataIndices as $index) {
-            $dataKey = $this->queryKey;
-            $dataVal = $data[$index]->$dataKey;
-            if ($this->queryValue['from'] > $dataVal
-                 || $this->queryValue['to'] < $dataVal){
+            $price = $data[$index]->{$this->queryKey};
+            if (!$this->queryValue->includesPricePoint($price)){
                 unset($dataIndices[$index]);
             }
         }

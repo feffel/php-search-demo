@@ -2,34 +2,32 @@
 
 namespace App\Search\Filters;
 
-use App\Helpers;
+use App\Types\DateRange;
 
 class DateFilterDecorator extends FilterDecorator {
+
+    private function dateSearch(array $avlblArr){
+        $queryDate = $this->queryValue;
+        foreach ($avlblArr as $date) {
+            $hotelAvlbl = DateRange::createFromStdClass($date);
+            if ($hotelAvlbl->includesRange($queryDate)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function getFilteredIndices(){
         $dataIndices = $this->wrappedQuery->getFilteredIndices();
         $data = $this->getInitData();
-
         foreach ($dataIndices as $index) {
-            $dataKey = $this->queryKey;
-            $dateArr = $data[$index]->$dataKey;
-            $found = false;
-            foreach ($dateArr as $date) {
-                $hotelAvlbl = [
-                    'from' => Helpers::dateFromStr($date->from),
-                    'to' => Helpers::dateFromStr($date->to),
-                ];
-                if ($this->queryValue['from'] >= $hotelAvlbl['from'] 
-                     && $this->queryValue['to'] <= $hotelAvlbl['to']){
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
+            $dateArr = $data[$index]->{$this->queryKey};
+            if (!$this->dateSearch($dateArr)){
                 unset($dataIndices[$index]);
             }
         }
         return $dataIndices;
     }
+
 }
 

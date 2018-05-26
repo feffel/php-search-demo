@@ -8,10 +8,10 @@ abstract class BaseSort {
     protected $key;
     protected $descending = false;
 
-    public function __construct(&$data, $key, bool $descending){
+    public function __construct(&$data, $key, $sorting){
         $this->data = &$data;
         $this->key = $key;
-        $this->descending = $descending;
+        $this->descending = $sorting == 'descending';
     }
 
     public function sort(){

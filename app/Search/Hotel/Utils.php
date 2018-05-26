@@ -55,9 +55,8 @@ class Utils{
         unset($chunk);
         if(isset($params['sort-by'])){
             $key = SORT_KEYS[$params['sort-by']];
-            $descending = (bool) (isset($params['sorting'])
-                                  && $params['sorting'] == 'descending');
-            (new HotelSort($results, $key, $descending))->sort();
+            $sorting = $params['sorting']?? null;
+            (new HotelSort($results, $key, $sorting))->sort();
         }
         return $results;
     }

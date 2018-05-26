@@ -2,7 +2,7 @@
 
 namespace App\Search\Hotel;
 
-use App\Helpers;
+use App\Types\{DateRange, PriceRange};
 
 class QueryParser {
 
@@ -74,20 +74,7 @@ class QueryParser {
             if (!is_string($this->queryArr['price'])){
                 return false;
             }
-            $priceStr = explode(':', $this->queryArr['price']);
-            if (count($priceStr) != 2){
-                return false;
-            }
-            if (!is_numeric($priceStr[0]) || !is_numeric($priceStr[1])){
-                return false;
-            }
-            if ($priceStr[0] > $priceStr[1]){
-                return false;
-            }
-            $priceRange = [
-                'from' => (float)$priceStr[0],
-                'to' => (float)$priceStr[1],
-            ];
+            $priceRange = PriceRange::createFromStr($this->queryArr['price']);
         }
         return $priceRange;
     }
@@ -98,20 +85,7 @@ class QueryParser {
             if (!is_string($this->queryArr['date'])){
                 return false;
             }
-            $dateStr = explode(":", $this->queryArr['date']);
-            if (count($dateStr) != 2){
-                return false;
-            }
-            $dateRange = [
-                'from' => Helpers::dateFromStr($dateStr[0]),
-                'to' => Helpers::dateFromStr($dateStr[1]),
-            ];
-            if ($dateRange['from'] === false || $dateRange['to'] === false){
-                return false;
-            }
-            if ($dateRange['from'] > $dateRange['to']){
-                return false;
-            }
+            $dateRange = DateRange::createFromStr($this->queryArr['date']);
         }
         return $dateRange;
     }

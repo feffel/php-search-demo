@@ -24,18 +24,31 @@ class CacheManager {
         sem_release(self::$semLock);
     }
 
-    private static function clean($ref){
-        $keys = self::getAllKeys($ref);
-        foreach ($keys as $i) {
-            if (Cache::has($i)){
-                $item = Cache::get($i);
-                if ($item->age() > self::MAX_AGE){
-                    $item->forget();
-                    Cache::forget($i);
-                }
+
+    public static function has($key){
+        if (Cache::has($key)){
+            $item = Cache::get($key);
+            if ($item->age() > self::MAX_AGE){
+                self::forget($item, $key);
+            } else {
+                return true;
             }
         }
+        return false;
     }
+
+    public static function get($key){
+        if (self::has($key)){
+            return Cache::get($key);
+        }
+        return null;
+    }
+
+    public static function forget($item, $key){
+        $item->forget();
+        Cache::forget($key);
+    }
+
 
     private static function generateKey($ref, $postFix){
         return $ref . '-' . $postFix;
@@ -45,8 +58,8 @@ class CacheManager {
         $all = [];
         $keys = self::getAllKeys($ref);
         foreach ($keys as $i) {
-            if (Cache::has($i)){
-                $all[] = Cache::get($i);
+            if (self::has($i)){
+                $all[] = self::get($i);
             }
         }
         return $all;
@@ -63,7 +76,7 @@ class CacheManager {
     private static function getFreeKey($ref){
         $keys = self::getAllKeys($ref);
         foreach ($keys as $k) {
-            if (!Cache::has($k)){
+            if (!self::has($k)){
                 return $k;
             }
         }
@@ -79,7 +92,6 @@ class CacheManager {
     }
 
     public static function getRecent($ref){
-        self::clean($ref);
         $inCache = self::inCache($ref);
         if(count($inCache) == 0){
             return null;
@@ -92,7 +104,6 @@ class CacheManager {
     }
 
     public static function put($item, $ref){
-        self::clean($ref);
         $key = self::getFreeKey($ref);
         Cache::put($key, $item, 1);
         return;
