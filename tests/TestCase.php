@@ -1,5 +1,7 @@
 <?php
 
+require(dirname(__FILE__).'/JsonFileDataProviderIterator.php');
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -21,5 +23,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public static function getMethod($name, string $class)
+    {
+        $class = new ReflectionClass($class);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+        return $method;
     }
 }

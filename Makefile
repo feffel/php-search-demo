@@ -4,6 +4,8 @@ up:
 	docker-compose up
 stop:
 	docker-compose stop
+test:
+	docker-compose exec app ./vendor/bin/phpunit
 down:
 	docker-compose down
 logs:
@@ -17,10 +19,9 @@ optimize:
 shell:
 	docker-compose exec app php -a
 init:
+	cp .env.example .env
 	make install
 	make build
 	docker-compose up -d
-	cp .env.example .env
 	make genkey
 	make optimize
-	make 

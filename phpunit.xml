@@ -16,6 +16,11 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+              <directory suffix=".php">./app/Providers</directory>
+              <directory suffix=".php">./app/Console</directory>
+              <directory suffix=".php">./app/Exceptions</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>
@@ -24,4 +29,10 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
+    <logging>
+        <log type="coverage-html" target="./report" charset="UTF-8"
+            yui="true" highlight="true"
+            lowUpperBound="50" highLowerBound="75" />
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
 </phpunit>

@@ -2,6 +2,8 @@
 /public/storage
 /vendor
 /.idea
+/report
+/build
 Homestead.json
 Homestead.yaml
 .env

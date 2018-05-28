@@ -1,0 +1,27 @@
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+before_install:
+  - sudo service memcached stop
+  - make init
+  - docker-compose up -d
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - make test
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=31aaa7cd46219300416bad437d36f29f9f07955ec7d7015a6be8daf215c68628
