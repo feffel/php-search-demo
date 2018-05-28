@@ -10,7 +10,7 @@ class PriceFilterDecorator extends FilterDecorator {
         $data = $this->getInitData();
         foreach ($dataIndices as $index) {
             $price = $data[$index]->{$this->queryKey};
-            if (!$this->queryValue->includesPricePoint($price)){
+            if (!$this->queryValue->includesPricePoint((float)$price)){
                 unset($dataIndices[$index]);
             }
         }

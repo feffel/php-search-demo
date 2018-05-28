@@ -1,0 +1,8 @@
+{
+    "str": "hello world",
+    "query": 
+        [
+            "hell"
+        ],
+    "expected": true
+}

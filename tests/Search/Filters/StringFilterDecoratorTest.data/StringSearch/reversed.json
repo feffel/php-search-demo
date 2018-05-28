@@ -1,0 +1,9 @@
+{
+    "str": "star shining",
+    "query": 
+        [
+            "shining",
+            "star"
+        ],
+    "expected": true
+}
