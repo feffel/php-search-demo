@@ -19,9 +19,9 @@ optimize:
 shell:
 	docker-compose exec app php -a
 init:
+	cp .env.example .env
 	make install
 	make build
 	docker-compose up -d
-	cp .env.example .env
 	make genkey
 	make optimize
