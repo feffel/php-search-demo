@@ -25,8 +25,7 @@ class AppServiceProvider extends ServiceProvider
             $regex = '/^' . $numRegex . ':' . $numRegex . '$/';
             return (bool) preg_match($regex, $value);
         });
-        \App::bind('hotelUtils', function()
-        {
+        \App::bind('hotelUtils', function() {
             return new \App\Search\Hotel\Utils;
         });
     }

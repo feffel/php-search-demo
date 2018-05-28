@@ -2,26 +2,32 @@
 
 namespace App\Search;
 
-class BaseQuery implements SearchQuery {
+class BaseQuery implements SearchQuery
+{
     
     private $data;
 
-    public function __construct(){
+    public function __construct()
+    {
     }
 
-    public function search(){
+    public function search()
+    {
         return $this->getInitData();
     }
 
-    public function getInitData(){
+    public function getInitData()
+    {
         return $this->data;
     }
 
-    public function setInitData($data){
+    public function setInitData($data)
+    {
         $this->data = $data;
     }
 
-    public function getFilteredIndices(){
+    public function getFilteredIndices()
+    {
         return range(0, count($this->data)-1);
     }
 }

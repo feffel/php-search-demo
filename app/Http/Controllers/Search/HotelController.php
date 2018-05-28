@@ -43,20 +43,19 @@ class HotelController extends Controller
         ]);
     }
 
-    public function response($data, $status){
+    public function response($data, $status)
+    {
         return Response::json($data, $status);
     }
 
     public function show(Request $request)
     {
         $validator = $this->validator($request->all());
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return $this->response(["error"=>"invalid_format"], 400);
         }
         $results = HotelUtils::getSearchResults($request->all());
-        if($results === false)
-        {
+        if ($results === false) {
             return $this->response(["error"=>"invalid_params"], 400);
         }
         return $this->response($results, 200);
