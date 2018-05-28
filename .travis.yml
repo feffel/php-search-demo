@@ -6,6 +6,7 @@ services:
   - docker
 
 before_install:
+  - sudo service memcached stop
   - make init
   - make up
 
