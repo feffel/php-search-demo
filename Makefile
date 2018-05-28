@@ -25,4 +25,3 @@ init:
 	cp .env.example .env
 	make genkey
 	make optimize
-	make 
