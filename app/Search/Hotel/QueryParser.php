@@ -48,6 +48,11 @@ class QueryParser {
         return true;
     }
 
+    private function cleanStr(string $str): array{
+        $str = preg_replace("/[^a-zA-Z0-9 ]+/", "", $str);
+        return array_filter(explode(' ', $str));
+    }
+
     private function parseStr($key){
         $str = null;
         if (isset($this->queryArr[$key])){
@@ -55,8 +60,7 @@ class QueryParser {
             if (!is_string($str)){
                 return false;
             }
-            $str = preg_replace("/[^a-zA-Z0-9 ]+/", "", $str);
-            $str = explode(' ', $str);
+            $str = $this->cleanStr($str);
         }
         return $str;
     }

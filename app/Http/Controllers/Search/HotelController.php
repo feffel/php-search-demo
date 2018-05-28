@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Search;
 
-use App\Search\Hotel\Utils as HotelUtils;
 use App\Http\Controllers\Controller;
+use App\HotelUtils;
 use Illuminate\Http\Request;
 use Response;
 use Validator;

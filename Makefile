@@ -4,6 +4,8 @@ up:
 	docker-compose up
 stop:
 	docker-compose stop
+test:
+	docker-compose exec app ./vendor/bin/phpunit
 down:
 	docker-compose down
 logs:

@@ -31,7 +31,7 @@ class DateRange {
         }
         $from = self::dateFromStr($dateArr[0]);
         $to = self::dateFromStr($dateArr[1]);
-        if ($from === false || $to === false){
+        if ($from === false || $to === false || $to < $from){
             return false;
         }
         return new self($from, $to);

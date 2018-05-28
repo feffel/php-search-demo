@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Media One",
+        "price": 102.2,
+        "city": "dubai",
+        "availability":
+        [
+                {"from":"10-10-2020","to":"15-10-2020"},
+                {"from":"10-12-2020","to":"15-12-2020"}
+        ]
+    },
+    {
+        "name": "One Media",
+        "price": 20.2,
+        "city": "new cairo",
+        "availability":
+        [
+                {"from":"20-10-2020","to":"25-10-2020"},
+                {"from":"20-12-2020","to":"25-12-2020"}
+        ]
+    },
+    {
+        "name": "Rotana",
+        "price": 80.6,
+        "city": "cairo",
+        "availability":
+        [
+            {"from":"20-10-2020","to":"25-10-2020"},
+            {"from":"10-12-2020","to":"15-12-2020"}
+        ]
+    }
+]
