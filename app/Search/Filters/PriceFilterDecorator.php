@@ -4,7 +4,9 @@ namespace App\Search\Filters;
 
 class PriceFilterDecorator extends FilterDecorator
 {
-
+    /**
+     * @return array
+     */
     public function getFilteredIndices()
     {
         $dataIndices = $this->wrappedQuery->getFilteredIndices();

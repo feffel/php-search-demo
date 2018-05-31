@@ -6,10 +6,28 @@ use App\Search\SearchQuery;
 
 abstract class FilterDecorator implements SearchQuery
 {
-    public $wrappedQuery;
-    public $queryKey;
-    public $queryValue;
+    /**
+     * @var SearchQuery
+     */
+    private $wrappedQuery;
 
+    /**
+     * @var string
+     */
+    private $queryKey;
+
+    /**
+     * @var mixed
+     */
+    private $queryValue;
+
+    /**
+     * FilterDecorator Constructor
+     *
+     * @param SearchQuery $wrappedQuery
+     * @param string $queryKey
+     * @param mixed $queryValue
+     */
     public function __construct(SearchQuery $wrappedQuery, $queryKey, $queryValue)
     {
         $this->wrappedQuery = $wrappedQuery;
@@ -17,19 +35,30 @@ abstract class FilterDecorator implements SearchQuery
         $this->queryValue = $queryValue;
     }
 
+    /**
+     * @return array
+     */
     public function search()
     {
-        return array_values(array_intersect_key(
-            $this->getInitData(),
-            $this->getFilteredIndices())
+        return array_values(
+            array_intersect_key(
+                $this->getInitData(),
+                $this->getFilteredIndices()
+            )
         );
     }
 
+    /**
+     * @return array
+     */
     public function getInitData()
     {
         return $this->wrappedQuery->getInitData();
     }
 
+    /**
+     * @param array $data
+     */
     public function setInitData($data)
     {
         return $this->wrappedQuery->setInitData($data);

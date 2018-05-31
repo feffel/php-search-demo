@@ -4,6 +4,9 @@ namespace App\Search\Filters;
 
 class StringFilterDecorator extends FilterDecorator
 {
+    /**
+     * @return bool
+     */
     private function searchString(string $str)
     {
         foreach ($this->queryValue as $queryWord) {
@@ -14,6 +17,9 @@ class StringFilterDecorator extends FilterDecorator
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function getFilteredIndices()
     {
         $dataIndices = $this->wrappedQuery->getFilteredIndices();

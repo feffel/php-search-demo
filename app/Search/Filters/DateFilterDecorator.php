@@ -7,6 +7,9 @@ use App\Types\DateRange;
 class DateFilterDecorator extends FilterDecorator
 {
 
+    /**
+     * @return bool
+     */
     private function dateSearch(array $avlblArr)
     {
         $queryDate = $this->queryValue;
@@ -19,6 +22,9 @@ class DateFilterDecorator extends FilterDecorator
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function getFilteredIndices()
     {
         $dataIndices = $this->wrappedQuery->getFilteredIndices();
