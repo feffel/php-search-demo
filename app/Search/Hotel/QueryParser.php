@@ -3,6 +3,9 @@
 namespace App\Search\Hotel;
 
 use App\Types\{DateRange, PriceRange};
+use App\Search\Filters\{DateFilterDecorator,
+                        StringFilterDecorator,
+                        PriceFilterDecorator};
 
 class QueryParser
 {
@@ -28,7 +31,7 @@ class QueryParser
     {
         if (!isset($this->parsedQuery)) {
             $valid = $this->parse();
-            if ($valid !== true){
+            if ($valid !== true) {
                 return false;
             }
         }
@@ -53,14 +56,33 @@ class QueryParser
     protected function parse() 
     {
         $parsedQuery = [
-            'name'        => $this->parseName(),
-            'destination' => $this->parseDestination(),
-            'price'       => $this->parsePrice(),
-            'date'        => $this->parseDate(),
+            'name'        => [
+                'queryValue'    => $this->parseStr('name'),
+                'queryKey'      => 'name',
+                'filterClass'   => StringFilterDecorator::class,
+            ],
+            'destination' => [
+                'queryValue'    => $this->parseStr('destination'),
+                'queryKey'      => 'city',
+                'filterClass'   => StringFilterDecorator::class,
+            ],
+            'price'       => [
+                'queryValue'    => $this->parsePrice('price'),
+                'queryKey'      => 'price',
+                'filterClass'   => PriceFilterDecorator::class,
+            ],
+            'date'        => [
+                'queryValue'    => $this->parseDate('date'),
+                'queryKey'      => 'availability',
+                'filterClass'   => DateFilterDecorator::class,
+            ]
         ];
-        foreach ($parsedQuery as $param) {
-            if ($param === false){
+        foreach ($parsedQuery as $key => $param) {
+            if ($param['queryValue'] === false) {
                 return false;
+            }
+            if ($param['queryValue'] === null) {
+                unset($parsedQuery[$key]);
             }
         }
         $this->parsedQuery = $parsedQuery;
@@ -79,7 +101,8 @@ class QueryParser
     }
 
     /**
-     * @return array
+     * @param string key
+     * @return array|null|false
      */
     private function parseStr($key)
     {
@@ -95,47 +118,33 @@ class QueryParser
     }
 
     /**
-     * @return array|null|false
-     */
-    private function parseName()
-    {
-        return $this->parseStr('name');
-    }
-
-    /**
-     * @return array|null|false
-     */
-    private function parseDestination()
-    {
-        return $this->parseStr('destination');
-    }
-
-    /**
+     * @param string key
      * @return PriceRange|null|false
      */
-    private function parsePrice()
+    private function parsePrice($key)
     {
         $priceRange = null;
-        if (isset($this->queryArr['price'])) {
-            if (!is_string($this->queryArr['price'])) {
+        if (isset($this->queryArr[$key])) {
+            if (!is_string($this->queryArr[$key])) {
                 return false;
             }
-            $priceRange = PriceRange::createFromStr($this->queryArr['price']);
+            $priceRange = PriceRange::createFromStr($this->queryArr[$key]);
         }
         return $priceRange;
     }
 
     /**
+     * @param string key
      * @return DateRange|null|false
      */
-    private function parseDate()
+    private function parseDate($key)
     {
         $dateRange = null;
-        if (isset($this->queryArr['date'])) {
-            if (!is_string($this->queryArr['date'])) {
+        if (isset($this->queryArr[$key])) {
+            if (!is_string($this->queryArr[$key])) {
                 return false;
             }
-            $dateRange = DateRange::createFromStr($this->queryArr['date']);
+            $dateRange = DateRange::createFromStr($this->queryArr[$key]);
         }
         return $dateRange;
     }

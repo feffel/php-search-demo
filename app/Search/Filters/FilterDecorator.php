@@ -9,17 +9,17 @@ abstract class FilterDecorator implements SearchQuery
     /**
      * @var SearchQuery
      */
-    private $wrappedQuery;
+    protected $wrappedQuery;
 
     /**
      * @var string
      */
-    private $queryKey;
+    protected $queryKey;
 
     /**
      * @var mixed
      */
-    private $queryValue;
+    protected $queryValue;
 
     /**
      * FilterDecorator Constructor

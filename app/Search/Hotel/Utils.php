@@ -36,6 +36,7 @@ class Utils
             $data = $this->fetchData($url);
             $recent = ItemChunks::fromData($data, 250);
             CacheManager::put($recent, $url);
+            unset($data);
         }
         CacheManager::releaseLock();
         return $recent;
@@ -60,8 +61,8 @@ class Utils
             $chunk = $chunkedItem->getChunk($i);
             $query->setInitData($chunk);
             $results = array_merge($results, $query->search());
+            unset($chunk);
         }
-        unset($chunk);
         if(isset($params['sort-by'])) {
             $key = self::SORT_KEYS[$params['sort-by']];
             $sorting = $params['sorting']?? null;
