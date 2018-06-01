@@ -45,8 +45,7 @@ sorting             can be combined with 'sort-by' to specify sorting, default i
             e.g.:   http://localhost:8000/api/search?sort-by=name&sorting=ascending
             e.g.:   http://localhost:8000/api/search?sort-by=price&sorting=descending
 ```
-
-
+All of the parameters are optional and can be combined with each other. Any other parameters will be ignored.
 
 ## Running the tests
 
@@ -56,6 +55,24 @@ make test
 ```
 
 
+## Architecture
+
+- Types
+  - `DateRange` responsiple for holding a range of dates.
+  - `PriceRange` responsiple for holding a range of prices.
+  
+- Search
+  - `BaseQuery` implements `SearchQuery` and responsiple for holding the data to be searched.
+  - `FilterDecorator` an abstract implementation of `SearchQuery`, follows a decorator pattern and defines the bones for the different filters, `StringFilterDecorator`, `PriceFilterDecorator` and `DateFilterDecorator`.
+  
+- Hotel
+  - `Hotel\QueryParser` responsiple for parsing hotel search parameters.
+  - `Hotel\QueryBuilder` responsiple for building a `SearchQuery` from parsed hotel search parameters (generated from `Hotel\QueryParser`).
+  - `HotelUtils` is a facade with helper functions to handle hotel search requests.
+  
+- Cache
+  - `CacheManager` responsiple for the storage/retreival of `ItemChunks` in cache, using different requirements for acquiring an item from cache and actually deleting it. The padded age is used to assure requests that acquired the item can be resolved before deleting the item.
+  - `ItemChunks` responsiple for the storage/retreival of big arrays in cache as a list of chunks.
 
 ### Assumptions
 
@@ -78,4 +95,3 @@ All of the source code can be found under the `app/` directory.
 
 
 - Tests are yet to be completed.
-- Documentation is yet to be written.
